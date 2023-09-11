@@ -3,7 +3,6 @@
     "baseUrl": "./",
     "paths": {
       "@components/*": ["src/components/*"],
-      "@layouts/*": ["src/components/layouts/*"],
       "@services/*": ["src/services/*"]
     },
     "lib": ["ESNext"],
@@ -18,7 +17,8 @@
     "downlevelIteration": true,
     "skipLibCheck": true,
     "jsx": "react",
-    "jsxFactory": "elements.createElement",
+    "jsxFactory": "ElysiaJSX",
+    "jsxFragmentFactory": "ElysiaJSX.Fragment",
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "allowJs": true,

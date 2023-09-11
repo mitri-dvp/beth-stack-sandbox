@@ -1,5 +1,3 @@
-import * as elements from "typed-html";
-
 import BaseLayout from "@components/layouts/BaseLayout";
 
 const Home = () => {

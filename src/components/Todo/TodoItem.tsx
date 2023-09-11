@@ -1,5 +1,3 @@
-import * as elements from "typed-html";
-
 const TodoItem = ({ todo }: { todo: Todo }) => {
   return (
     <div class="flex gap-4 text-4xl items-center">
