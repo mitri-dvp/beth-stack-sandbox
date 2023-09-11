@@ -1,4 +1,5 @@
 import * as elements from "typed-html";
+
 import TodoItem from "./TodoItem";
 
 const db: Todo[] = [
