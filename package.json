@@ -2,6 +2,11 @@
   "name": "beth-stack",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "db:push": "bunx drizzle-kit push:sqlite",
+    "db:studio": "bunx drizzle-kit studio",
+    "dev": "bun run --watch src/index.tsx"
+  },
   "devDependencies": {
     "bun-types": "latest",
     "typed-html": "^3.0.1"
@@ -11,6 +16,7 @@
   },
   "dependencies": {
     "@elysiajs/html": "^0.6.4",
-    "elysia": "^0.6.20"
+    "elysia": "^0.6.20",
+    "twind": "^0.16.19"
   }
 }
