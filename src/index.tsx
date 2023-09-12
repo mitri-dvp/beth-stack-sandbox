@@ -1,4 +1,4 @@
-import { Elysia } from "elysia";
+import { Elysia, t } from "elysia";
 import { html } from "@elysiajs/html";
 import home from "@services/home";
 import todos from "@services/todos";
@@ -8,6 +8,16 @@ const app = new Elysia()
   .get("/styles.css", () => Bun.file("./src/styles/output.css"))
   .get("/", home.get)
   .get("/todos", todos.get)
+  .put("/todos/toggle/:id", ({ params }) => todos.toggle({ params }), {
+    params: t.Object({
+      id: t.Numeric(),
+    }),
+  })
+  .delete("/todos/:id", ({ params }) => todos.delete({ params }), {
+    params: t.Object({
+      id: t.Numeric(),
+    }),
+  })
   .listen(5000);
 
 console.log(
