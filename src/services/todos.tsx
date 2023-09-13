@@ -4,6 +4,21 @@ import { db } from "src/db/db";
 
 const todos = {
   get: () => <TodoList />,
+  create: ({ body }: { body: { content: string } }) => {
+    if (body.content.length === 0) {
+      throw new Error("Plese add content");
+    }
+
+    const newTodo: Todo = {
+      id: db[db.length - 1].id + 1,
+      content: body.content,
+      completed: false,
+    };
+
+    db.push(newTodo);
+
+    return <TodoItem todo={newTodo} />;
+  },
   toggle: ({ params }: { params: Record<"id", number> }) => {
     const todo = db.find((todo) => todo.id === params.id);
     if (todo) {

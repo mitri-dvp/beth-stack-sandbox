@@ -1,6 +1,6 @@
 const TodoItem = ({ todo }: { todo: Todo }) => {
   return (
-    <div class="flex gap-4 text-4xl items-center">
+    <div class="flex gap-4 text-xl items-center">
       <p class="mr-auto">{todo.content}</p>
       <button
         class="w-8 h-8 rounded border border-gray-500 flex justify-center items-center active:text-gray-400 active:border-gray-400 transition-all"

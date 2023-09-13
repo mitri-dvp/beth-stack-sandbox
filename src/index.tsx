@@ -8,6 +8,11 @@ const app = new Elysia()
   .get("/styles.css", () => Bun.file("./src/styles/output.css"))
   .get("/", home.get)
   .get("/todos", todos.get)
+  .post("todos", ({ body }) => todos.create({ body }), {
+    body: t.Object({
+      content: t.String(),
+    }),
+  })
   .put("/todos/toggle/:id", ({ params }) => todos.toggle({ params }), {
     params: t.Object({
       id: t.Numeric(),
