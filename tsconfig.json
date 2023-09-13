@@ -3,7 +3,10 @@
     "baseUrl": "./",
     "paths": {
       "@components/*": ["src/components/*"],
-      "@services/*": ["src/services/*"]
+      "@db/*": ["src/db/*"],
+      "@db*": ["src/db"],
+      "@services/*": ["src/services/*"],
+      "@styles/*": ["src/styles/*"]
     },
     "lib": ["ESNext"],
     "module": "esnext",

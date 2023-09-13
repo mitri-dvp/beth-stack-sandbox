@@ -1,17 +1,28 @@
 import TodoForm from "@components/Todo/TodoForm";
 import TodoItem from "@components/Todo/TodoItem";
 import TodoList from "@components/Todo/TodoList";
-import { db } from "src/db/db";
+import { db } from "@db";
+import { TodoInsert, todosTable } from "@db/schema";
+import { eq } from "drizzle-orm";
 
 const todos = {
-  get: () => (
-    <div class="flex flex-col gap-4 w-full">
-      <TodoList />
-      <TodoForm />
-    </div>
-  ),
-  getList: () => <TodoList />,
-  create: ({
+  get: async () => {
+    const todos = await db.select().from(todosTable);
+
+    return (
+      <div class="flex flex-col gap-4 w-full">
+        <h1 class="text-4xl mb-4 font-semibold">To-Do List:</h1>
+        <TodoList todos={todos} />
+        <TodoForm />
+      </div>
+    );
+  },
+  getList: async () => {
+    const todos = await db.select().from(todosTable);
+
+    return <TodoList todos={todos} />;
+  },
+  create: async ({
     body,
     headers,
   }: {
@@ -22,30 +33,39 @@ const todos = {
       throw new Error("Plese add content");
     }
 
-    const newTodo: Todo = {
-      id: db[db.length - 1].id + 1,
+    const newTodo: TodoInsert = {
       content: body.content,
-      completed: false,
     };
 
-    db.push(newTodo);
+    await db.insert(todosTable).values(newTodo);
 
-    headers["HX-Trigger"] = "new-todo";
-
-    return <TodoForm />;
+    headers["HX-Trigger"] = "create-todo";
   },
-  toggle: ({ params }: { params: Record<"id", number> }) => {
-    const todo = db.find((todo) => todo.id === params.id);
-    if (todo) {
-      todo.completed = !todo.completed;
-      return <TodoItem todo={todo} />;
+  toggle: async ({ params }: { params: Record<"id", number> }) => {
+    const todo = await db
+      .select()
+      .from(todosTable)
+      .where(eq(todosTable.id, params.id));
+
+    if (todo.length) {
+      const newTodo = await db
+        .update(todosTable)
+        .set({ completed: !todo[0].completed })
+        .where(eq(todosTable.id, params.id))
+        .returning();
+
+      return <TodoItem todo={newTodo[0]} />;
     }
   },
-  delete: ({ params }: { params: Record<"id", number> }) => {
-    const index = db.findIndex((todo) => todo.id === params.id);
-    if (index > -1) {
-      db.splice(index, 1);
-    }
+  delete: async ({
+    params,
+    headers,
+  }: {
+    params: Record<"id", number>;
+    headers: { [header: string]: string };
+  }) => {
+    await db.delete(todosTable).where(eq(todosTable.id, params.id));
+    headers["HX-Trigger"] = "delete-todo";
   },
 };
 

@@ -23,11 +23,15 @@ const app = new Elysia()
       id: t.Numeric(),
     }),
   })
-  .delete("/todos/:id", ({ params }) => todos.delete({ params }), {
-    params: t.Object({
-      id: t.Numeric(),
-    }),
-  })
+  .delete(
+    "/todos/:id",
+    ({ params, set: { headers } }) => todos.delete({ params, headers }),
+    {
+      params: t.Object({
+        id: t.Numeric(),
+      }),
+    }
+  )
   .listen(5000);
 
 console.log(

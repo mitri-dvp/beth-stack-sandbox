@@ -1,16 +1,22 @@
-import { db } from "src/db/db";
+import { TodoSelect as Todo } from "@db/schema";
 import TodoItem from "./TodoItem";
 
-const TodoList = () => {
+const TodoList = ({ todos }: { todos: Todo[] }) => {
   return (
     <div
       class="flex flex-col gap-4"
       hx-get="/todos/list"
-      hx-trigger="new-todo from:body"
+      hx-trigger="create-todo from:body, delete-todo from:body"
     >
-      {db.map((todo) => (
-        <TodoItem todo={todo} />
-      ))}
+      {todos.length ? (
+        <>
+          {todos.map((todo) => (
+            <TodoItem todo={todo} />
+          ))}
+        </>
+      ) : (
+        <div>List seems to be empty...</div>
+      )}
     </div>
   );
 };

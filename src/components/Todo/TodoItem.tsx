@@ -1,3 +1,5 @@
+import { TodoSelect as Todo } from "@db/schema";
+
 const TodoItem = ({ todo }: { todo: Todo }) => {
   return (
     <div class="flex gap-4 text-xl items-center">

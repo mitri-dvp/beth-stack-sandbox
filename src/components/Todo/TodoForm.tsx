@@ -2,12 +2,14 @@ const TodoForm = () => {
   return (
     <form
       class="flex gap-4 text-base items-center"
+      {...{ "hx-on::after-request": "this.reset()" }}
       hx-post="/todos"
-      hx-swap="outerHTML"
+      hx-swap="none"
     >
       <input
         type="text"
         name="content"
+        placeholder="Add a to-do..."
         class="border border-gray-500 rounded h-8 px-2 w-full"
       />
       <button
