@@ -1,10 +1,23 @@
+import TodoForm from "@components/Todo/TodoForm";
 import TodoItem from "@components/Todo/TodoItem";
 import TodoList from "@components/Todo/TodoList";
 import { db } from "src/db/db";
 
 const todos = {
-  get: () => <TodoList />,
-  create: ({ body }: { body: { content: string } }) => {
+  get: () => (
+    <div class="flex flex-col gap-4 w-full">
+      <TodoList />
+      <TodoForm />
+    </div>
+  ),
+  getList: () => <TodoList />,
+  create: ({
+    body,
+    headers,
+  }: {
+    body: { content: string };
+    headers: { [header: string]: string };
+  }) => {
     if (body.content.length === 0) {
       throw new Error("Plese add content");
     }
@@ -17,7 +30,9 @@ const todos = {
 
     db.push(newTodo);
 
-    return <TodoItem todo={newTodo} />;
+    headers["HX-Trigger"] = "new-todo";
+
+    return <TodoForm />;
   },
   toggle: ({ params }: { params: Record<"id", number> }) => {
     const todo = db.find((todo) => todo.id === params.id);

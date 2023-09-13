@@ -3,7 +3,7 @@ const TodoForm = () => {
     <form
       class="flex gap-4 text-base items-center"
       hx-post="/todos"
-      hx-swap="beforebegin"
+      hx-swap="outerHTML"
     >
       <input
         type="text"
